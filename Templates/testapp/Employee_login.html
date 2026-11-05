@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - SBI Bank</title>
+
+    <link rel="stylesheet" href="/static/CSS/admin.css">
+</head>
+<body>
+
+    <div class="login-container">
+
+        <h1>SBI BANK</h1>
+        <h2>Employee Login</h2>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <label>Employee Username</label>
+            <input type="text" name="username"
+                   placeholder="Enter Employee Username" required>
+
+            <label>Password</label>
+            <input type="password" name="password"
+                   placeholder="Enter Password" required>
+
+            <button type="submit">Login</button>
+
+        </form>
+
+        <a href="/home/">Back to Home</a>
+
+    </div>
+
+</body>
+</html>

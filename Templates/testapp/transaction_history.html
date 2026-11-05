@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SBI Bank - Transaction History</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f1f5fb;
+            color: #333;
+        }
+
+        .header {
+            background-color: #08477f;
+            color: white;
+            padding: 20px 35px;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 35px auto;
+        }
+
+        h2 {
+            color: #08477f;
+            margin-bottom: 25px;
+        }
+
+        .transaction-card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            border-left: 5px solid #08477f;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+
+        .account-number {
+            font-size: 15px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .transaction-type {
+            font-size: 18px;
+            font-weight: bold;
+            color: #08477f;
+            margin-bottom: 12px;
+        }
+
+        .amount {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .deposit {
+            color: #16803c;
+        }
+
+        .withdrawal {
+            color: #c0392b;
+        }
+
+        .details {
+            line-height: 1.8;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #08477f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .empty-message {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 94%;
+            }
+
+            .transaction-card {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    SBI BANK
+</div>
+
+<div class="container">
+
+    <h2>My Transaction History</h2>
+
+    {% for transaction in transactions %}
+
+    <div class="transaction-card">
+
+        <div class="account-number">
+            <strong>Account Number:</strong>
+            {{ transaction.account.account_number }}
+        </div>
+
+        <div class="transaction-type">
+            {{ transaction.transaction_type }}
+        </div>
+
+        <div class="amount
+            {% if transaction.transaction_type == 'Deposit' %}
+                deposit
+            {% else %}
+                withdrawal
+            {% endif %}">
+            ₹{{ transaction.amount }}
+        </div>
+
+        <div class="details">
+            <strong>Date:</strong> {{ transaction.transaction_date }}<br>
+            <strong>Description:</strong> {{ transaction.description|default:"N/A" }}
+        </div>
+
+    </div>
+
+    {% empty %}
+
+        <div class="empty-message">
+            No transactions found.
+        </div>
+
+    {% endfor %}
+
+    <a href="{% url 'customer_dashboard' %}" class="back-link">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

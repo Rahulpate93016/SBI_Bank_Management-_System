@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Withdraw Money - SBI</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f4f9;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #123b70;
+        }
+
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 8px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 25px;
+            background: #123b70;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .message {
+            padding: 10px;
+            margin-bottom: 12px;
+            background: #e8f5e9;
+            border-radius: 5px;
+        }
+
+        .error {
+            background: #ffebee;
+            color: #b71c1c;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #123b70;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2>Withdraw Money</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message {% if message.tags == 'error' %}error{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Account Number</label>
+        <input type="text"
+               name="account_number"
+               maxlength="12"
+               minlength="12"
+               pattern="[0-9]{12}"
+               placeholder="Enter 12 digit account number"
+               required>
+
+        <label>Withdrawal Amount (₹)</label>
+        <input type="number"
+               name="amount"
+               min="0.01"
+               step="0.01"
+               placeholder="Enter amount"
+               required>
+
+        <button type="submit">Withdraw Money</button>
+    </form>
+
+    <a href="{% url 'employee_dashboard' %}" class="back">
+        Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

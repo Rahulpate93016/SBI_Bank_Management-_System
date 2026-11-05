@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customer Details - SBI Bank</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f0f4fa;
+            color: #333;
+        }
+
+        header {
+            background: #08477f;
+            color: white;
+            padding: 22px 35px;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 25px;
+        }
+
+        h2, h3 {
+            color: #08477f;
+        }
+
+        .search-box, .profile-box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            font-size: 16px;
+            margin: 10px 0 15px;
+        }
+
+        button {
+            padding: 12px 25px;
+            background: #08477f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #06345d;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .detail {
+            padding: 13px;
+            background: #f5f8fc;
+            border-radius: 5px;
+        }
+
+        .detail strong {
+            color: #08477f;
+        }
+
+        .account-card {
+            border: 1px solid #ddd;
+            padding: 18px;
+            border-radius: 7px;
+            margin-top: 15px;
+            background: #fafcff;
+        }
+
+        .message {
+            background: #fff0f0;
+            color: #a00000;
+            padding: 13px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #08477f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        @media(max-width: 600px) {
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header> SBI BANK - CUSTOMER DETAILS </header>
+
+<div class="container">
+
+    <div class="search-box">
+
+        <h2>Search Customer</h2>
+
+        <p>Enter customer's bank account number.</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Account Number</label>
+
+            <input
+                type="text"
+                name="account_number"
+                maxlength="12"
+                placeholder="Enter 12 digit account number"
+                required
+            >
+
+            <button type="submit">Search Customer</button>
+
+        </form>
+
+    </div>
+
+    {% if customer %}
+
+    <div class="profile-box">
+
+        <h2>Customer Profile</h2>
+
+        <div class="details-grid">
+
+            <div class="detail">
+                <strong>Customer ID:</strong>
+                {{ customer.customer_id }}
+            </div>
+
+            <div class="detail">
+                <strong>Name:</strong>
+                {{ customer.name }}
+            </div>
+
+            <div class="detail">
+                <strong>Mobile:</strong>
+                {{ customer.mobile }}
+            </div>
+
+            <div class="detail">
+                <strong>Email:</strong>
+                {{ customer.email }}
+            </div>
+
+            <div class="detail">
+                <strong>PAN Number:</strong>
+                {{ customer.pan_number|default:"Not Provided" }}
+            </div>
+
+            <div class="detail">
+                <strong>Date of Birth:</strong>
+                {{ customer.date_of_birth|default:"Not Provided" }}
+            </div>
+
+            <div class="detail">
+                <strong>Gender:</strong>
+                {{ customer.gender|default:"Not Provided" }}
+            </div>
+
+            <div class="detail">
+                <strong>Address:</strong>
+                {{ customer.address }}
+            </div>
+
+        </div>
+
+        <h3>Bank Account Information</h3>
+
+        {% for account in accounts %}
+
+        <div class="account-card">
+
+            <p>
+                <strong>Account Number:</strong>
+                {{ account.account_number }}
+            </p>
+
+            <p>
+                <strong>Account Type:</strong>
+                {{ account.get_account_type_display }}
+            </p>
+
+            <p>
+                <strong>Balance:</strong>
+                ₹{{ account.balance }}
+            </p>
+
+            <p>
+                <strong>Branch:</strong>
+                {{ account.branch_name }}
+            </p>
+
+            <p>
+                <strong>Account Status:</strong>
+                {{ account.account_status }}
+            </p>
+
+            <p>
+                <strong>Opening Date:</strong>
+                {{ account.opening_date }}
+            </p>
+
+            <p>
+                <strong>Nominee Name:</strong>
+                {{ account.nominee_name }}
+            </p>
+
+            <p>
+                <strong>Nominee Relation:</strong>
+                {{ account.nominee_relation }}
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% endif %}
+
+    <a class="back-link" href="{% url 'employee_dashboard' %}">
+        ← Back to Employee Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SBI Bank - Account Balance</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f1f5fb;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background-color: #08477f;
+            color: white;
+            padding: 20px 35px;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        /* Main Container */
+        .container {
+            width: 90%;
+            max-width: 750px;
+            margin: 45px auto;
+        }
+
+        h2 {
+            color: #08477f;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Balance Card */
+        .balance-card {
+            background-color: white;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            border-top: 5px solid #08477f;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .account-number,
+        .account-type {
+            font-size: 16px;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        .balance-label {
+            text-align: center;
+            color: #555;
+            font-size: 17px;
+            margin-top: 25px;
+        }
+
+        .balance-amount {
+            text-align: center;
+            color: #16803c;
+            font-size: 34px;
+            font-weight: bold;
+            margin: 15px 0 25px;
+        }
+
+        .status {
+            text-align: center;
+            padding: 12px;
+            background-color: #e1f5e7;
+            color: #16803c;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* Back Button */
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #08477f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .empty-message {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .container {
+                width: 94%;
+                margin: 25px auto;
+            }
+
+            .balance-card {
+                padding: 20px;
+            }
+
+            .balance-amount {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        SBI BANK
+    </div>
+
+    <div class="container">
+
+        <h2>My Account Balance</h2>
+
+        {% for account in accounts %}
+
+        <div class="balance-card">
+
+            <div class="account-number">
+                <strong>Account Number:</strong>
+                {{ account.account_number }}
+            </div>
+
+            <div class="account-type">
+                <strong>Account Type:</strong>
+                {{ account.account_type }}
+            </div>
+
+            <div class="balance-label">
+                Available Balance
+            </div>
+
+            <div class="balance-amount">
+                ₹{{ account.balance|floatformat:2 }}
+            </div>
+
+            <div class="status">
+                Account Status: {{ account.account_status }}
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="empty-message">
+            No bank account found.
+        </div>
+
+        {% endfor %}
+
+        <a href="{% url 'customer_dashboard' %}" class="back-link">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</body>
+</html>

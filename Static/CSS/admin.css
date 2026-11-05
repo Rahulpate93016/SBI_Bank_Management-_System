@@ -1,0 +1,88 @@
+
+/* Basic Reset */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #eaf1fa;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Login Container */
+
+.login-container {
+    width: 400px;
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+/* Heading */
+
+.login-container h1 {
+    color: #003b7a;
+    margin-bottom: 10px;
+}
+
+.login-container h2 {
+    color: #333;
+    margin-bottom: 30px;
+}
+
+/* Form */
+
+form {
+    text-align: left;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Login Button */
+
+button {
+    width: 100%;
+    padding: 13px;
+    background-color: #003b7a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056a8;
+}
+
+/* Back Link */
+
+.login-container a {
+    display: inline-block;
+    margin-top: 20px;
+    color: #003b7a;
+    text-decoration: none;
+}

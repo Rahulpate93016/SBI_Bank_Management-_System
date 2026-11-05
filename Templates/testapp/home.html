@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>SBI Bank Management System</title>
+        <link rel="stylesheet" href="/static/CSS/first.css">
+</head>
+<body>
+   <!-- Header Section -->
+    <header>
+        <div class="logo">
+            <h2>SBI BANK</h2>
+        </div>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="#about">About Us</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact Us</a>
+        </nav>
+    </header>
+<main>
+    <section class="hero">
+
+        <h1>Welcome to SBI Bank</h1>
+
+        <h2>Bank Management System</h2>
+
+        <p>Your Trusted Banking Partner</p>
+
+      <div class="login-buttons">
+
+    <a href="{% url 'admin_login' %}" class="admin-btn">
+        Admin Panel
+    </a>
+
+    <a href="{% url 'customer_login' %}" class="customer-btn">
+        Customer Login
+    </a>
+
+    <a href="{% url 'employee_login' %}" class="employee-btn">
+        Employee Login
+    </a>
+
+</div>
+    </section>
+
+    <section id="about">
+
+    <h2>About Us</h2>
+
+    <p>
+        Welcome to SBI Bank Management System.
+        Our aim is to provide convenient and
+        secure banking services.
+    </p>
+
+</section>
+
+<section id="services">
+
+    <h2>Our Banking Services</h2>
+
+    <div class="service-container">
+
+        <div class="service-card">
+            <h3>Account Management</h3>
+            <p>Manage your bank account easily and securely.</p>
+        </div>
+
+        <div class="service-card">
+            <h3>Money Deposit</h3>
+            <p>Deposit money into your bank account.</p>
+        </div>
+
+        <div class="service-card">
+            <h3>Money Withdrawal</h3>
+            <p>Withdraw money from your account.</p>
+        </div>
+
+        <div class="service-card">
+            <h3>Balance Enquiry</h3>
+            <p>Check your available account balance.</p>
+        </div>
+
+        <div class="service-card">
+            <h3>Transaction History</h3>
+            <p>View your previous banking transactions.</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+</section>
+
+<section id="contact">
+
+    <h2>Contact Us</h2>
+
+    <div class="contact-container">
+
+        <div class="contact-card">
+            <h3>Our Address</h3>
+            <p>Bhopal, Madhya Pradesh, India</p>
+        </div>
+
+        <div class="contact-card">
+            <h3>Email Address</h3>
+            <p>rampatel93016@gmail.com</p>
+        </div>
+
+        <div class="contact-card">
+            <h3>Phone Number</h3>
+            <p>+91 9301621765</p>
+        </div>
+
+    </div>
+
+</section>
+
+
+</section>
+</main>
+<footer>
+
+
+<footer>
+
+    <div class="footer-container">
+
+        <div class="footer-about">
+            <h2>SBI BANK</h2>
+            <p>Your Trusted Banking Partner.</p>
+        </div>
+
+        <div class="footer-links">
+            <h3>Quick Links</h3>
+            <a href="/">Home</a>
+            <a href="#about">About Us</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact Us</a>
+        </div>
+
+        <div class="footer-contact">
+            <h3>Contact Information</h3>
+            <p>Email: rampatel93016@gmail.com</p>
+            <p>Phone: +91 9301621765</p>
+            <p>Location: Bhopal, India</p>
+        </div>
+
+    </div>
+
+    <div class="copyright">
+        <p>&copy; 2026 SBI Bank Management System. All Rights Reserved.</p>
+    </div>
+
+</footer>
+
+
+</footer>
+</body>
+</html>

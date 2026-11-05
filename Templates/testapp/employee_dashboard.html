@@ -1,0 +1,409 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard - SBI Bank</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f6fc;
+        }
+
+        /* Header */
+        header {
+            background: #003b7a;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h2 {
+            color: white;
+        }
+
+        .employee-info {
+            text-align: right;
+        }
+
+        .employee-info h3 {
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        /* Dashboard Layout */
+        .dashboard {
+            display: flex;
+            min-height: 85vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 230px;
+            background: #082c50;
+            padding: 25px 15px;
+            flex-shrink: 0;
+        }
+
+        .sidebar h3 {
+            color: white;
+            margin-bottom: 20px;
+            padding-left: 10px;
+        }
+
+        .sidebar a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 5px;
+        }
+
+        .sidebar a:hover {
+            background: #0066cc;
+        }
+
+        .logout-link {
+            background: #a92727;
+            margin-top: 20px;
+        }
+
+        .logout-link:hover {
+            background: #d32f2f !important;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            color: #003b7a;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #666;
+        }
+
+        /* Employee Profile */
+        .profile-card {
+            background: white;
+            padding: 22px;
+            border-radius: 8px;
+            margin-bottom: 28px;
+        }
+
+        .profile-card h3 {
+            color: #003b7a;
+            margin-bottom: 12px;
+        }
+
+        .profile-card p {
+            margin-top: 10px;
+            color: #444;
+        }
+
+        /* Operation Cards */
+        .main-content h2 {
+            color: #003b7a;
+            margin-bottom: 20px;
+        }
+
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 18px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px 18px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .card h3 {
+            color: #003b7a;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .card a {
+            display: inline-block;
+            background: #003b7a;
+            color: white;
+            padding: 10px 16px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .card a:hover {
+            background: #0066cc;
+        }
+
+        /* Footer */
+        footer {
+            background: #003b7a;
+            color: white;
+            text-align: center;
+            padding: 15px;
+        }
+
+        /* Mobile Responsive */
+        @media(max-width: 700px) {
+            .dashboard {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .employee-info {
+                text-align: center;
+            }
+
+            .main-content {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+
+        <h2>SBI BANK</h2>
+
+        <div class="employee-info">
+            <h3>{{ employee.name }}</h3>
+            <p>Employee Portal</p>
+        </div>
+
+    </header>
+
+
+    <div class="dashboard">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+
+            <h3>Employee Menu</h3>
+
+            <a href="{% url 'employee_dashboard' %}">
+                Dashboard
+            </a>
+
+            <a href="{% url 'open_new_account' %}">
+                Open New Account
+            </a>
+
+            <a href="{% url 'deposit_money' %}">
+                Deposit Money
+            </a>
+
+            <a href="{% url 'withdraw_money' %}">
+                Withdraw Money
+            </a>
+
+            <a href="{% url 'view_all_customers' %}">
+                Customer Details
+            </a>
+
+            <a href="{% url 'employee_transaction_history' %}">
+                Transaction History
+            </a>
+
+            <a href="{% url 'manage_loan_applications' %}">
+                Loan Applications
+            </a>
+
+            <a href="{% url 'employee_logout' %}" class="logout-link">
+                Logout
+            </a>
+
+        </aside>
+
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Welcome -->
+            <div class="welcome">
+
+                <h1>Welcome {{ employee.name }}!</h1>
+
+                <p>
+                    Welcome to SBI Bank Employee Management Portal.
+                </p>
+
+            </div>
+
+
+            <!-- Employee Profile -->
+            <div class="profile-card">
+
+                <h3>Employee Profile</h3>
+
+                <p>
+                    <strong>Employee ID:</strong>
+                    {{ employee.employee_id }}
+                </p>
+
+                <p>
+                    <strong>Designation:</strong>
+                    {{ employee.designation }}
+                </p>
+
+            </div>
+
+
+            <!-- Banking Operations -->
+            <h2>Banking Operations</h2>
+
+            <div class="card-container">
+
+
+                <!-- Open Account -->
+                <div class="card">
+
+                    <h3>Open New Account</h3>
+
+                    <p>
+                        Register a new customer bank account.
+                    </p>
+
+                    <a href="{% url 'open_new_account' %}">
+                        Open Account
+                    </a>
+
+                </div>
+
+
+                <!-- Deposit -->
+                <div class="card">
+
+                    <h3>Deposit Money</h3>
+
+                    <p>
+                        Deposit money into customer accounts.
+                    </p>
+
+                    <a href="{% url 'deposit_money' %}">
+                        Deposit Money
+                    </a>
+
+                </div>
+
+
+                <!-- Withdraw -->
+                <div class="card">
+
+                    <h3>Withdraw Money</h3>
+
+                    <p>
+                        Process customer cash withdrawals.
+                    </p>
+
+                    <a href="{% url 'withdraw_money' %}">
+                        Withdraw Money
+                    </a>
+
+                </div>
+
+
+                <!-- Customer Details -->
+                <div class="card">
+
+                    <h3>Customer Details</h3>
+
+                    <p>
+                        View registered customer information.
+                    </p>
+
+                    <a href="{% url 'view_all_customers' %}">
+                        View Customers
+                    </a>
+
+                </div>
+
+
+                <!-- Transaction History -->
+                <div class="card">
+
+                    <h3>Transaction History</h3>
+
+                    <p>
+                        View customer deposit and withdrawal transactions.
+                    </p>
+
+                    <a href="{% url 'employee_transaction_history' %}">
+                        View History
+                    </a>
+
+                </div>
+
+
+                <!-- Loan Applications -->
+                <div class="card">
+
+                    <h3>Loan Applications</h3>
+
+                    <p>
+                        View, approve or reject customer loan applications.
+                    </p>
+
+                    <a href="{% url 'manage_loan_applications' %}">
+                        Manage Loans
+                    </a>
+
+                </div>
+
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            © 2026 SBI Bank Management System. All Rights Reserved.
+        </p>
+
+    </footer>
+
+</body>
+</html>

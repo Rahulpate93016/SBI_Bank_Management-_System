@@ -1,0 +1,244 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manage Loan Applications - SBI Bank</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: #f0f4fa;
+            color: #333;
+        }
+
+        header {
+            background: #08477f;
+            color: white;
+            padding: 22px 35px;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 95%;
+            margin: 30px auto;
+        }
+
+        h2 {
+            color: #08477f;
+            margin-bottom: 25px;
+        }
+
+        .message {
+            background: #e5f5e9;
+            color: #16733b;
+            padding: 13px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .table-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
+
+        th, td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #08477f;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f5f8fc;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .pending {
+            color: #d18b00;
+        }
+
+        .approved {
+            color: green;
+        }
+
+        .rejected {
+            color: red;
+        }
+
+        button {
+            padding: 9px 14px;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            margin: 3px;
+        }
+
+        .approve {
+            background: #198754;
+        }
+
+        .reject {
+            background: #dc3545;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 22px;
+            text-decoration: none;
+            color: #08477f;
+            font-weight: bold;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 25px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    SBI BANK - Loan Management
+</header>
+
+<div class="container">
+
+    <h2>Customer Loan Applications</h2>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="table-container">
+
+        <table>
+            <tr>
+                <th>Application ID</th>
+                <th>Customer</th>
+                <th>Loan Type</th>
+                <th>Loan Amount</th>
+                <th>Monthly Income</th>
+                <th>Employment</th>
+                <th>Purpose</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+            {% for application in applications %}
+
+            <tr>
+                <td>{{ application.id }}</td>
+
+                <td>{{ application.customer.name }}</td>
+
+                <td>{{ application.get_loan_type_display }}</td>
+
+                <td>₹{{ application.loan_amount }}</td>
+
+                <td>₹{{ application.monthly_income }}</td>
+
+                <td>{{ application.employment_type }}</td>
+
+                <td>{{ application.purpose }}</td>
+
+                <td>
+                    <span class="status
+                        {% if application.status == 'Pending' %}pending
+                        {% elif application.status == 'Approved' %}approved
+                        {% else %}rejected{% endif %}">
+
+                        {{ application.status }}
+
+                    </span>
+                </td>
+
+                <td>
+                    {% if application.status == 'Pending' %}
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <input type="hidden"
+                               name="application_id"
+                               value="{{ application.id }}">
+
+                        <button type="submit"
+                                name="action"
+                                value="approve"
+                                class="approve">
+                            Approve
+                        </button>
+
+                        <button type="submit"
+                                name="action"
+                                value="reject"
+                                class="reject">
+                            Reject
+                        </button>
+
+                    </form>
+
+                    {% else %}
+                        Processed
+                    {% endif %}
+                </td>
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="9" class="no-data">
+                    No loan applications found.
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <a href="{% url 'employee_dashboard' %}" class="back">
+        ← Back to Dashboard
+    </a>
+
+</div>
+
+</body>
+

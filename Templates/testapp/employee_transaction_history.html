@@ -1,0 +1,293 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Transaction History - SBI Bank</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f0f4fa;
+            color: #333;
+        }
+
+        header {
+            background: #08477f;
+            color: white;
+            padding: 22px 35px;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 35px auto;
+            padding: 20px;
+        }
+
+        .box {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        h2, h3 {
+            color: #08477f;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            margin: 10px 0 15px;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 12px 25px;
+            background: #08477f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #06345d;
+        }
+
+        .account-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .detail {
+            background: #f5f8fc;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+        }
+
+        th, td {
+            padding: 14px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th {
+            background: #08477f;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f5f8fc;
+        }
+
+        .deposit {
+            color: green;
+            font-weight: bold;
+        }
+
+        .withdrawal {
+            color: #d12b2b;
+            font-weight: bold;
+        }
+
+        .message {
+            background: #fff0f0;
+            color: #a00000;
+            padding: 13px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #08477f;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .empty {
+            padding: 20px;
+            background: #f5f8fc;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+        @media(max-width: 600px) {
+            .account-info {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header> SBI BANK - TRANSACTION HISTORY </header>
+
+<div class="container">
+
+    <div class="box">
+
+        <h2>Search Transaction History</h2>
+
+        <p>Enter customer's bank account number.</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <label>Account Number</label>
+
+            <input
+                type="text"
+                name="account_number"
+                maxlength="12"
+                placeholder="Enter 12 digit account number"
+                required
+            >
+
+            <button type="submit">Search Transactions</button>
+        </form>
+
+    </div>
+
+    {% if account %}
+
+    <div class="box">
+
+        <h2>Account Information</h2>
+
+        <div class="account-info">
+
+            <div class="detail">
+                <strong>Customer Name:</strong>
+                {{ account.customer.name }}
+            </div>
+
+            <div class="detail">
+                <strong>Mobile:</strong>
+                {{ account.customer.mobile }}
+            </div>
+
+            <div class="detail">
+                <strong>Account Number:</strong>
+                {{ account.account_number }}
+            </div>
+
+            <div class="detail">
+                <strong>Account Type:</strong>
+                {{ account.get_account_type_display }}
+            </div>
+
+            <div class="detail">
+                <strong>Available Balance:</strong>
+                ₹{{ account.balance }}
+            </div>
+
+            <div class="detail">
+                <strong>Account Status:</strong>
+                {{ account.account_status }}
+            </div>
+
+        </div>
+
+        <h3>All Transactions</h3>
+
+        {% if transactions %}
+
+        <div class="table-wrapper">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Transaction ID</th>
+                        <th>Transaction Type</th>
+                        <th>Amount</th>
+                        <th>Date & Time</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for item in transactions %}
+
+                    <tr>
+                        <td>{{ item.id }}</td>
+
+                        <td>
+                            {% if item.transaction_type == 'Deposit' %}
+                                <span class="deposit">Deposit</span>
+                            {% else %}
+                                <span class="withdrawal">Withdrawal</span>
+                            {% endif %}
+                        </td>
+
+                        <td>₹{{ item.amount }}</td>
+
+                        <td>{{ item.transaction_date|date:"d M Y, h:i A" }}</td>
+
+                        <td>{{ item.description|default:"-" }}</td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+            </table>
+
+        </div>
+
+        {% else %}
+
+            <div class="empty">
+                No transactions found for this account.
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    {% endif %}
+
+    <a class="back-link" href="{% url 'employee_dashboard' %}">
+        ← Back to Employee Dashboard
+    </a>
+
+</div>
+
+</body>
+</html>
